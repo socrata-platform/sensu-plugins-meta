@@ -1,0 +1,22 @@
+language: ruby
+dist: trusty
+
+branches:
+  only:
+    - master
+
+sudo: required
+
+services:
+  - docker
+
+install:
+  - bundle install
+
+script:
+  - bundle exec rake
+  - bundle exec kitchen test
+
+env:
+  global:
+    - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
