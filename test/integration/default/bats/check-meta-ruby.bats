@@ -78,3 +78,67 @@ teardown() {
   [ "${lines[0]}" = "UNKNOWN: getaddrinfo: Name or service not known" ]
   [ "${lines[1]}" = "CheckMeta UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
 }
+
+@test "Check a batch of SSL certs from a file, ok" {
+  echo '
+    [
+      {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
+      {"host": "www.socrata.com", "port": 443, "warning": 10, "critical": 7},
+      {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
+    ]
+  ' > /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  echo "Check status: $status"
+  echo "Check output: $output"
+  [ $status = 0 ]
+  [ "$output" = "CheckMeta OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok" ]
+}
+
+@test "Check a batch of SSL certs from a file, warning" {
+  echo '
+    [
+      {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
+      {"host": "www.socrata.com", "port": 443, "warning": 10000, "critical": 7},
+      {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
+    ]
+  ' > /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  echo "Check status: $status"
+  echo "Check output: $output"
+  [ $status = 1 ]
+  [ -n `echo ${lines[0]} | grep "^WARNING: check_ssl_host: www.socrata.com - "` ]
+  [ "${lines[1]}" = "CheckMeta WARNING: Results: 0 critical, 1 warning, 0 unknown, 2 ok" ]
+}
+
+@test "Check a batch of SSL certs from a file, critical" {
+  echo '
+    [
+      {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
+      {"host": "www.socrata.com", "port": 443, "warning": 10000, "critical": 9999},
+      {"host": "www.bing.com", "port": 443, "warning": 14000, "critical": 10}
+    ]
+  ' > /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  echo "Check status: $status"
+  echo "Check output: $output"
+  [ $status = 2 ]
+  [ -n `echo $output | grep "^CRITICAL: check_ssl_host: www.socrata.com - "` ]
+  [ -n `echo $output | grep "^WARNING: check_ssl_host: www.bing.com - "` ]
+  [ "${lines[2]}" = "CheckMeta CRITICAL: Results: 1 critical, 1 warning, 0 unknown, 1 ok" ]
+}
+
+@test "Check a batch of SSL certs from a file, unknown" {
+  echo '[
+      {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
+      {"host": "www.socrata.com", "port": 443, "warning": 10, "critical": 7},
+      {"host": "jojaduhafuhaduha.biz", "port": 443, "warning": 30, "critical": 14},
+      {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
+    ]
+  ' > /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  echo "Check status: $status"
+  echo "Check output: $output"
+  [ $status = 3 ]
+  [ "${lines[0]}" = "UNKNOWN: getaddrinfo: Name or service not known" ]
+  [ "${lines[1]}" = "CheckMeta UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
+}
