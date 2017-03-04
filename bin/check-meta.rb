@@ -69,31 +69,40 @@ class CheckMeta < Sensu::Plugin::Check::CLI
   def run
     require File.expand_path("../#{config[:check]}", $PROGRAM_NAME)
 
-    threads_for(parsed_config).each(&:join)
+    threads.each(&:join)
 
+    puts status_information
+    summarize!
+  end
+
+  #
+  # Send all the information about this run to stdout and exit with the
+  # appropriate status.
+  #
+  def summarize!
     %i(critical warning unknown).each do |status|
-      send(status, message) unless results[status].empty?
+      send(status, summary) unless results[status].empty?
     end
-    ok(message)
-  end
-
-  def parsed_config
-    JSON.parse(config[:config_string] || File.read(config[:config_file]),
-               symbolize_names: true)
+    ok(summary)
   end
 
   #
-  # Construct a string summary of our check results.
+  # Construct a string of the results of all the subchecks that have been run
+  # and not returned okay.
   #
-  # @return [String] a summary of check results
+  # @return [String] a long string of all the non-ok subcheck statuses
   #
-  def message
-    lines = %i(unknown warning critical).map do |status|
+  def status_information
+    %i(unknown warning critical).map do |status|
       results[status].map { |result| "#{status.upcase}: #{result}" }
-    end.flatten.compact
-    (lines << summary).join("\n")
+    end.flatten.compact.join("\n")
   end
 
+  #
+  # Construct the final summary message for our metacheck output.
+  #
+  # @return [String] a summary status of all the checks that have been run
+  #
   def summary
     "Results: #{results[:critical].size} critical, " \
       "#{results[:warning].size} warning, " \
@@ -111,24 +120,35 @@ class CheckMeta < Sensu::Plugin::Check::CLI
   def check_class
     @check_class ||= begin
       c = ObjectSpace.each_object(Class).find do |klass|
-        klass < Sensu::Plugin::Check::CLI && klass != self.class
+        klass < Sensu::Plugin::Check::CLI && \
+          klass != self.class && \
+          !klass.ancestors.include?(self.class)
       end
-
-      c.class_eval do
-        #
-        # Make the check status accessible as a reader method.
-        #
-        attr_reader :status
-
-        #
-        # Patch the output method so it returns the output string instead of
-        # sending it to stdout.
-        #
-        def output(msg = @message)
-          @output ||= self.class.check_name + (msg ? ": #{msg}" : '')
-        end
-      end
+      patch_class!(c)
       c
+    end
+  end
+
+  #
+  # Patch a Sensu check class so it saves its output instead of sending it
+  # to stdout. Otherwise the threading screws up the rendering.
+  #
+  # @param klass [Sensu::Plugin::Check::CLI] the check class to patch
+  #
+  def patch_class!(klass)
+    klass.class_eval do
+      #
+      # Make the check status accessible as a reader method.
+      #
+      attr_reader :status
+
+      #
+      # Patch the output method so it returns the output string instead of
+      # sending it to stdout.
+      #
+      def output(msg = @message)
+        @output ||= self.class.check_name + (msg ? ": #{msg}" : '')
+      end
     end
   end
 
@@ -136,12 +156,21 @@ class CheckMeta < Sensu::Plugin::Check::CLI
   # Work through the array generated from our JSON config and return an array
   # of corresponding thread objects.
   #
-  # @param json [Array<Hash>] an array of check option hashes
   #
   # @return [Array<Thread>] an array of threads to run
   #
-  def threads_for(json)
-    json.map { |check_opts| thread_for(check_opts) }
+  def threads
+    parsed_config.map { |check_opts| thread_for(check_opts) }
+  end
+
+  #
+  # Return a parsed and symbolized version of our JSON config.
+  #
+  # @return [Hash] the metacheck config
+  #
+  def parsed_config
+    JSON.parse(config[:config_string] || File.read(config[:config_file]),
+               symbolize_names: true)
   end
 
   #
@@ -164,21 +193,35 @@ class CheckMeta < Sensu::Plugin::Check::CLI
   def thread_for(check_opts)
     Thread.new do
       chk = check_class.new(check_args_for(check_opts))
+      run_check!(chk)
+    end
+  end
 
-      begin
-        chk.run
-      rescue SystemExit => e
-        Sensu::Plugin::EXIT_CODES.each do |status, code|
-          if e.status == code
-            results[status.downcase.to_sym] << chk.output
-            break
-          end
-        end
-      rescue StandardError => e
-        # Though an argument could be made to treat other exceptions as
-        # critical instead of unknown.
-        results[:unknown] << e.to_s
-      end
+  #
+  # Accept and run a given sub-check object, catch its resultant status and
+  # output, and preserve that data for later processing.
+  #
+  # @param chk [Sensu::Plugin::Check::CLI] a Sensu check object
+  #
+  def run_check!(chk)
+    chk.run
+  rescue SystemExit => e
+    results[exit_statuses[e.status]] << chk.output
+  rescue StandardError => e
+    # Though an argument could be made to treat other exceptions as
+    # critical instead of unknown.
+    results[:unknown] << e.to_s
+  end
+
+  #
+  # Invert Sensu's exit codes hash so it's an array of exit codes to statuses,
+  # downcased and symbolized, e.g. exit_status[0] => :ok.
+  #
+  # @return [Array<Symbol>] an inverted index of Sensu exit codes and statues
+  #
+  def exit_statuses
+    Sensu::Plugin::EXIT_CODES.each_with_object([]) do |(status, code), arr|
+      arr[code] = status.downcase.to_sym
     end
   end
 

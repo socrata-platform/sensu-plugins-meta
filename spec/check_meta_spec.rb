@@ -185,7 +185,7 @@ describe CheckMeta do
     end
 
     context 'a mix of results' do
-      let(:ok) { ['Check: 1 ok', 'Check: 2 ok' ] }
+      let(:ok) { ['Check: 1 ok', 'Check: 2 ok'] }
       let(:warning) { ['Check: 1 warn'] }
       let(:critical) { ['Check: 1 crit', 'Check: 2 crit'] }
       let(:unknown) { ['Check: 1 unknown'] }
@@ -201,7 +201,7 @@ describe CheckMeta do
     end
 
     context 'only ok results' do
-      let(:ok) { ['Check: 1 ok', 'Check: 2 ok', 'Check: 3 ok' ] }
+      let(:ok) { ['Check: 1 ok', 'Check: 2 ok', 'Check: 3 ok'] }
 
       it 'returns a string of check results' do
         expect(check.status_information).to eq('')
@@ -209,7 +209,7 @@ describe CheckMeta do
     end
 
     context 'only warning results' do
-      let(:warning) { ['Check: 1 warn', 'Check: 2 warn', 'Check: 3 warn' ] }
+      let(:warning) { ['Check: 1 warn', 'Check: 2 warn', 'Check: 3 warn'] }
 
       it 'returns a string of check results' do
         expected = <<-EOH.gsub(/^ +/, '').strip
@@ -222,7 +222,7 @@ describe CheckMeta do
     end
 
     context 'only critical results' do
-      let(:critical) { ['Check: 1 crit', 'Check: 2 crit', 'Check: 3 crit' ] }
+      let(:critical) { ['Check: 1 crit', 'Check: 2 crit', 'Check: 3 crit'] }
 
       it 'returns a string of check results' do
         expected = <<-EOH.gsub(/^ +/, '').strip
@@ -235,7 +235,7 @@ describe CheckMeta do
     end
 
     context 'only unknown results' do
-      let(:unknown) { ['Check: 1 ???', 'Check: 2 ???', 'Check: 3 ???' ] }
+      let(:unknown) { ['Check: 1 ???', 'Check: 2 ???', 'Check: 3 ???'] }
 
       it 'returns a string of check results' do
         expected = <<-EOH.gsub(/^ +/, '').strip
@@ -292,7 +292,7 @@ describe CheckMeta do
   end
 
   describe '#threads' do
-    let(:parsed_config) { [{ key: 'val1'}, { key: 'val2' } ] }
+    let(:parsed_config) { [{ key: 'val1' }, { key: 'val2' }] }
 
     before do
       allow_any_instance_of(described_class).to receive(:parsed_config)
@@ -372,9 +372,11 @@ describe CheckMeta do
     before(:each) do
       if subcheck_exit_status
         allow(subcheck).to receive(:output).and_return(subcheck_output)
-        expect(subcheck).to receive(:run).and_raise(SystemExit, subcheck_exit_status)
+        expect(subcheck).to receive(:run).and_raise(SystemExit,
+                                                    subcheck_exit_status)
       else
-        expect(subcheck).to receive(:run).and_raise(RuntimeError, subcheck_exception)
+        expect(subcheck).to receive(:run).and_raise(RuntimeError,
+                                                    subcheck_exception)
       end
     end
 
@@ -436,7 +438,7 @@ describe CheckMeta do
 
   describe '#exit_statuses' do
     it 'returns the expected array of exit statuses' do
-      expect(check.exit_statuses).to eq(%i{ok warning critical unknown})
+      expect(check.exit_statuses).to eq(%i(ok warning critical unknown))
     end
   end
 

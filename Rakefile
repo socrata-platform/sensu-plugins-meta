@@ -12,7 +12,13 @@ require 'yard/rake/yardoc_task'
 YARD::Rake::YardocTask.new do |t|
   OTHER_PATHS = %w().freeze
   t.files = ['lib/**/*.rb', 'bin/**/*.rb', OTHER_PATHS]
-  t.options = %w(--markup-provider=redcarpet --markup=markdown --main=README.md --files CHANGELOG.md)
+  t.options = %w(
+    --markup-provider=redcarpet
+    --markup=markdown
+    --main=README.md
+    --files
+    CHANGELOG.md
+  )
 end
 
 RuboCop::RakeTask.new
@@ -38,4 +44,4 @@ task :check_binstubs do
   end
 end
 
-task default: %i(spec make_bin_executable yard rubocop check_binstubs)
+task default: %i(rubocop spec make_bin_executable yard check_binstubs)
