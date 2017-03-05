@@ -8,8 +8,9 @@ describe CheckMeta do
   let(:argv) { %w(-c fake-check.rb) }
   let(:check) { described_class.new(argv) }
 
-  after(:all) do
-    allow_any_instance_of(described_class).to receive(:at_exit)
+  # Don't let Sensu::Plugin::CLI hijack RSpec with its `at_exit` block.
+  after do
+    described_class.class_variable_set(:@@autorun, false)
   end
 
   describe '#initialize' do
@@ -463,11 +464,26 @@ describe CheckMeta do
     end
 
     context 'a boolean switch' do
-      let(:check_opts) { { fail_immediately: nil } }
+      let(:check_opts) { { now: nil } }
 
       it 'returns the correct argv set' do
-        pending
-        expect(res).to eq(%w(--fail-immediately))
+        expect(res).to eq(%w(--now))
+      end
+    end
+
+    context 'a hyphenated switch' do
+      let(:check_opts) { { :'fail-immediately' => 'yes' } }
+
+      it 'returns the correct argv set' do
+        expect(res).to eq(%w(--fail-immediately yes))
+      end
+    end
+
+    context 'an underscored switch' do
+      let(:check_opts) { { fail_immediately: 'yes' } }
+
+      it 'returns the correct argv set' do
+        expect(res).to eq(%w(--fail-immediately yes))
       end
     end
 
@@ -475,7 +491,6 @@ describe CheckMeta do
       let(:check_opts) { { s: 'wiggling', on_time: 'no', delayed: nil } }
 
       it 'returns the correct argv set' do
-        pending
         expect(res).to eq(%w(-s wiggling --on-time no --delayed))
       end
     end

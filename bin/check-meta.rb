@@ -239,7 +239,7 @@ class CheckMeta < Sensu::Plugin::Check::CLI
   #
   def check_args_for(check_opts)
     check_opts.each_with_object([]) do |(k, v), arr|
-      arr << (k.length == 1 ? "-#{k}" : "--#{k}")
+      arr << (k.length == 1 ? "-#{k}" : "--#{k.to_s.tr('_', '-')}")
       arr << v.to_s unless v.nil?
     end
   end
