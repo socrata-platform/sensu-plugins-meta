@@ -7,7 +7,7 @@ setup() {
   unset GEM_PATH
 
   RUBY_BIN=/opt/sensu/embedded/bin
-  export CHECK="$RUBY_BIN/ruby $RUBY_BIN/check-meta.rb"
+  export CHECK="$RUBY_BIN/ruby $RUBY_BIN/check-meta-ruby.rb"
 }
 
 teardown() {

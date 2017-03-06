@@ -2,9 +2,9 @@
 # frozen_string_literal: true
 
 require_relative 'spec_helper'
-require_relative '../bin/check-meta'
+require_relative '../bin/check-meta-ruby'
 
-describe CheckMeta do
+describe CheckMetaRuby do
   let(:argv) { %w(-c fake-check.rb) }
   let(:check) { described_class.new(argv) }
 

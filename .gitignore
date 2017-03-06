@@ -22,3 +22,5 @@ Gemfile.lock
 .env.ps1
 tmp/
 coverage
+.yardoc/
+doc/

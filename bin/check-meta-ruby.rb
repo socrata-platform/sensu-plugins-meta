@@ -2,7 +2,7 @@
 # encoding: utf-8
 # frozen_string_literal: false
 #
-#   check-meta.rb
+#   check-meta-ruby.rb
 #
 # DESCRIPTION:
 #   Give this check a file with another Sensu check and a JSON config and it
@@ -21,11 +21,11 @@
 # USAGE:
 #   Run a check multiple times using a JSON config file:
 #
-#     check-meta.rb -c check-http.rb -f /etc/sensu/http_checks.json
+#     check-meta-ruby.rb -c check-http.rb -f /etc/sensu/http_checks.json
 #
 #   Run a check multiple times using inline JSON:
 #
-#     check-meta.rb -c check-http.rb -s '[
+#     check-meta-ruby.rb -c check-http.rb -s '[
 #       {"host": "pants.com", "port": 80}, {"host": "google.com", "port": 443}
 #     ]'
 #
@@ -44,7 +44,7 @@ require 'sensu-plugin/check/cli'
 #
 # Check Meta
 #
-class CheckMeta < Sensu::Plugin::Check::CLI
+class CheckMetaRuby < Sensu::Plugin::Check::CLI
   option :check,
          short: '-c CHECK_SCRIPT',
          long: '--check CHECK_SCRIPT',

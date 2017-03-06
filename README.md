@@ -18,7 +18,7 @@ Functionality
 Files
 -----
 
-* bin/check-meta.rb
+* bin/check-meta-ruby.rb
 
 Usage
 -----
