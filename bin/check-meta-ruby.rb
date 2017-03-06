@@ -21,11 +21,11 @@
 # USAGE:
 #   Run a check multiple times using a JSON config file:
 #
-#     check-meta-ruby.rb -c check-http.rb -f /etc/sensu/http_checks.json
+#     check-meta-ruby.rb -c check-http.rb -j /etc/sensu/http_checks.json
 #
-#   Run a check multiple times using inline JSON:
+#   Run a check multiple times using an inline JSON config string:
 #
-#     check-meta-ruby.rb -c check-http.rb -s '[
+#     check-meta-ruby.rb -c check-http.rb -j '[
 #       {"host": "pants.com", "port": 80}, {"host": "google.com", "port": 443}
 #     ]'
 #
@@ -51,15 +51,11 @@ class CheckMetaRuby < Sensu::Plugin::Check::CLI
          description: 'The Sensu Ruby check to run multiple times',
          required: true
 
-  option :config_string,
-         short: '-s CONFIG_STRING',
-         long: '--config-string CONFIG_STRING',
-         description: 'A JSON config passed in as a string'
-
-  option :config_file,
-         short: '-f FILE_PATH',
-         long: '--config-file FILE_PATH',
-         description: 'A JSON config passed in as a file'
+  option :json_config,
+         short: '-j CONFIG_STRING_OR_PATH',
+         long: '--json-config CONFIG_STRING_OR_PATH',
+         description: 'A JSON config string or path to a config file',
+         required: true
 
   #
   # Import the check we want to run and dispatch threads for every instance of
@@ -71,7 +67,7 @@ class CheckMetaRuby < Sensu::Plugin::Check::CLI
 
     threads.each(&:join)
 
-    puts status_information
+    puts status_information unless status_information.empty?
     summarize!
   end
 
@@ -169,8 +165,12 @@ class CheckMetaRuby < Sensu::Plugin::Check::CLI
   # @return [Hash] the metacheck config
   #
   def parsed_config
-    JSON.parse(config[:config_string] || File.read(config[:config_file]),
-               symbolize_names: true)
+    @parsed_config ||= begin
+                         JSON.parse(config[:json_config], symbolize_names: true)
+                       rescue JSON::ParserError
+                         JSON.parse(File.read(config[:json_config]),
+                                    symbolize_names: true)
+                       end
   end
 
   #

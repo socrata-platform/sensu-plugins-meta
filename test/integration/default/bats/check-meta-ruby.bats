@@ -19,7 +19,7 @@ teardown() {
 }
 
 @test "Check a batch of SSL certs from the CLI, ok" {
-  run $CHECK -c check-ssl-host.rb -s '
+  run $CHECK -c check-ssl-host.rb -j '
     [
       {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
       {"host": "www.socrata.com", "port": 443, "warning": 10, "critical": 7},
@@ -29,11 +29,11 @@ teardown() {
   echo "Check status: $status"
   echo "Check output: $output"
   [ $status = 0 ]
-  [ "$output" = "CheckMeta OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok" ]
+  [ "$output" = "CheckMetaRuby OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok" ]
 }
 
 @test "Check a batch of SSL certs from the CLI, warning" {
-  run $CHECK -c check-ssl-host.rb -s '
+  run $CHECK -c check-ssl-host.rb -j '
     [
       {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
       {"host": "www.socrata.com", "port": 443, "warning": 10000, "critical": 7},
@@ -44,11 +44,11 @@ teardown() {
   echo "Check output: $output"
   [ $status = 1 ]
   [ -n `echo ${lines[0]} | grep "^WARNING: check_ssl_host: www.socrata.com - "` ]
-  [ "${lines[1]}" = "CheckMeta WARNING: Results: 0 critical, 1 warning, 0 unknown, 2 ok" ]
+  [ "${lines[1]}" = "CheckMetaRuby WARNING: Results: 0 critical, 1 warning, 0 unknown, 2 ok" ]
 }
 
 @test "Check a batch of SSL certs from the CLI, critical" {
-  run $CHECK -c check-ssl-host.rb -s '
+  run $CHECK -c check-ssl-host.rb -j '
     [
       {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
       {"host": "www.socrata.com", "port": 443, "warning": 10000, "critical": 9999},
@@ -60,11 +60,11 @@ teardown() {
   [ $status = 2 ]
   [ -n `echo $output | grep "^CRITICAL: check_ssl_host: www.socrata.com - "` ]
   [ -n `echo $output | grep "^WARNING: check_ssl_host: www.bing.com - "` ]
-  [ "${lines[2]}" = "CheckMeta CRITICAL: Results: 1 critical, 1 warning, 0 unknown, 1 ok" ]
+  [ "${lines[2]}" = "CheckMetaRuby CRITICAL: Results: 1 critical, 1 warning, 0 unknown, 1 ok" ]
 }
 
 @test "Check a batch of SSL certs from the CLI, unknown" {
-  run $CHECK -c check-ssl-host.rb -s '
+  run $CHECK -c check-ssl-host.rb -j '
     [
       {"host": "www.google.com", "port": 443, "warning": 7, "critical": 3},
       {"host": "www.socrata.com", "port": 443, "warning": 10, "critical": 7},
@@ -76,7 +76,7 @@ teardown() {
   echo "Check output: $output"
   [ $status = 3 ]
   [ "${lines[0]}" = "UNKNOWN: getaddrinfo: Name or service not known" ]
-  [ "${lines[1]}" = "CheckMeta UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
+  [ "${lines[1]}" = "CheckMetaRuby UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
 }
 
 @test "Check a batch of SSL certs from a file, ok" {
@@ -87,11 +87,11 @@ teardown() {
       {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
     ]
   ' > /tmp/check-ssl.json
-  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -j /tmp/check-ssl.json
   echo "Check status: $status"
   echo "Check output: $output"
   [ $status = 0 ]
-  [ "$output" = "CheckMeta OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok" ]
+  [ "$output" = "CheckMetaRuby OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok" ]
 }
 
 @test "Check a batch of SSL certs from a file, warning" {
@@ -102,12 +102,12 @@ teardown() {
       {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
     ]
   ' > /tmp/check-ssl.json
-  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -j /tmp/check-ssl.json
   echo "Check status: $status"
   echo "Check output: $output"
   [ $status = 1 ]
   [ -n `echo ${lines[0]} | grep "^WARNING: check_ssl_host: www.socrata.com - "` ]
-  [ "${lines[1]}" = "CheckMeta WARNING: Results: 0 critical, 1 warning, 0 unknown, 2 ok" ]
+  [ "${lines[1]}" = "CheckMetaRuby WARNING: Results: 0 critical, 1 warning, 0 unknown, 2 ok" ]
 }
 
 @test "Check a batch of SSL certs from a file, critical" {
@@ -118,13 +118,13 @@ teardown() {
       {"host": "www.bing.com", "port": 443, "warning": 14000, "critical": 10}
     ]
   ' > /tmp/check-ssl.json
-  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -j /tmp/check-ssl.json
   echo "Check status: $status"
   echo "Check output: $output"
   [ $status = 2 ]
   [ -n `echo $output | grep "^CRITICAL: check_ssl_host: www.socrata.com - "` ]
   [ -n `echo $output | grep "^WARNING: check_ssl_host: www.bing.com - "` ]
-  [ "${lines[2]}" = "CheckMeta CRITICAL: Results: 1 critical, 1 warning, 0 unknown, 1 ok" ]
+  [ "${lines[2]}" = "CheckMetaRuby CRITICAL: Results: 1 critical, 1 warning, 0 unknown, 1 ok" ]
 }
 
 @test "Check a batch of SSL certs from a file, unknown" {
@@ -135,10 +135,10 @@ teardown() {
       {"host": "www.bing.com", "port": 443, "warning": 14, "critical": 10}
     ]
   ' > /tmp/check-ssl.json
-  run $CHECK -c check-ssl-host.rb -f /tmp/check-ssl.json
+  run $CHECK -c check-ssl-host.rb -j /tmp/check-ssl.json
   echo "Check status: $status"
   echo "Check output: $output"
   [ $status = 3 ]
   [ "${lines[0]}" = "UNKNOWN: getaddrinfo: Name or service not known" ]
-  [ "${lines[1]}" = "CheckMeta UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
+  [ "${lines[1]}" = "CheckMetaRuby UNKNOWN: Results: 0 critical, 0 warning, 1 unknown, 3 ok" ]
 }

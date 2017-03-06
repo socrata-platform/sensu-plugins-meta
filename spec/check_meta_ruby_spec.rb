@@ -5,7 +5,7 @@ require_relative 'spec_helper'
 require_relative '../bin/check-meta-ruby'
 
 describe CheckMetaRuby do
-  let(:argv) { %w(-c fake-check.rb) }
+  let(:argv) { %w(-c fake-check.rb -j '[{"fake": "json"}]') }
   let(:check) { described_class.new(argv) }
 
   # Don't let Sensu::Plugin::CLI hijack RSpec with its `at_exit` block.
@@ -15,27 +15,34 @@ describe CheckMetaRuby do
 
   describe '#initialize' do
     let(:c) { nil }
-    let(:s) { nil }
-    let(:f) { nil }
+    let(:j) { nil }
     let(:argv) do
-      [
-        (['-c', c] if c), (['-s', s] if s), (['-f', f] if f)
-      ].flatten.compact
+      [(['-c', c] if c), (['-j', j] if j)].flatten.compact
     end
 
     context 'all required switches provided' do
       let(:c) { 'fake-check.rb' }
-      let(:s) { 'fake config' }
+      let(:j) { 'fake config' }
 
       it 'saves the config for later' do
-        expected = { check: 'fake-check.rb', config_string: 'fake config' }
+        expected = { check: 'fake-check.rb', json_config: 'fake config' }
         expect(check.config).to eq(expected)
       end
     end
 
     context 'no check provided' do
       let(:c) { nil }
-      let(:s) { 'fake config' }
+      let(:j) { 'fake config' }
+
+      it 'raises an error' do
+        allow_any_instance_of(described_class).to receive(:puts)
+        expect { check }.to raise_error(SystemExit)
+      end
+    end
+
+    context 'no json config provided' do
+      let(:c) { 'fake-check.rb' }
+      let(:j) { nil }
 
       it 'raises an error' do
         allow_any_instance_of(described_class).to receive(:puts)
@@ -54,13 +61,14 @@ describe CheckMetaRuby do
       %w(
         require
         puts
-        status_information
         summarize!
       ).each do |m|
         allow_any_instance_of(described_class).to receive(m)
-        allow_any_instance_of(described_class).to receive(:threads)
-          .and_return(double(each: true))
       end
+      allow_any_instance_of(described_class).to receive(:status_information)
+        .and_return('')
+      allow_any_instance_of(described_class).to receive(:threads)
+        .and_return(double(each: true))
     end
 
     it 'imports the configured check' do
@@ -82,7 +90,8 @@ describe CheckMetaRuby do
 
     it 'prints the subcheck status to stdout' do
       c = check
-      expect(c).to receive(:status_information).and_return('stubstatus')
+      expect(c).to receive(:status_information).at_least(:once)
+        .and_return('stubstatus')
       expect(c).to receive(:puts).with('stubstatus')
       c.run
     end
@@ -309,23 +318,18 @@ describe CheckMetaRuby do
   end
 
   describe '#parsed_config' do
-    let(:string) { nil }
-    let(:file) { nil }
+    let(:json_config) { nil }
     let(:file_content) { nil }
-    let(:argv) do
-      [
-        %w(-c fake-check.rb),
-        (['-s', string] if string),
-        (['-f', file] if file)
-      ].flatten.compact
-    end
+    let(:argv) { ['-c', 'fake-check.rb', '-j', json_config] }
 
     before(:each) do
-      allow(File).to receive(:read).with(file).and_return(file_content) if file
+      if file_content
+        allow(File).to receive(:read).with(json_config).and_return(file_content)
+      end
     end
 
     context 'a config string' do
-      let(:string) { '[{"key": "val"}]' }
+      let(:json_config) { '[{"key": "val"}]' }
 
       it 'returns the parsed config' do
         expect(check.parsed_config).to eq([{ key: 'val' }])
@@ -333,11 +337,20 @@ describe CheckMetaRuby do
     end
 
     context 'a config file' do
-      let(:file) { '/tmp/check.json' }
+      let(:json_config) { '/tmp/check.json' }
       let(:file_content) { '[{"key": "val"}]' }
 
       it 'returns the parsed config' do
         expect(check.parsed_config).to eq([{ key: 'val' }])
+      end
+    end
+
+    context 'an invalid config file' do
+      let(:json_config) { '/ihadiha/huhduah/dhauiso' }
+      let(:file_content) { nil }
+
+      it 'raises an error' do
+        expect { check.parsed_config }.to raise_error(Errno::ENOENT)
       end
     end
   end
