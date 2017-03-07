@@ -23,7 +23,21 @@ if [ ! -d $RUBY_HOME ]; then
     server {
       listen 80;
 
+      location / {
+        limit_except GET {
+          deny all;
+        }
+        return 200;
+      }
+
       location /okay {
+        limit_except GET {
+          deny all;
+        }
+        return 200;
+      }
+
+      location /okaytoo {
         limit_except GET {
           deny all;
         }
