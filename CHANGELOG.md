@@ -6,9 +6,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Added
 
-## 0.0.1 - 2017-02-24
-
+## [0.1.0] - 2017-03-07
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/sensu-plugins/sensu-plugins-meta/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/socrata-platform/sensu-plugins-meta/compare/0.1.0...HEAD
+[0.1.0]: https://github.com/socrata-platform/sensu-plugins-meta/tree/v0.1.0
