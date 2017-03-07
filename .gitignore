@@ -1,0 +1,26 @@
+.vagrant
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+.vscode/
+
+# Bundler
+Gemfile.lock
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+
+.env.sh
+.env.ps1
+tmp/
+coverage
+.yardoc/
+doc/
