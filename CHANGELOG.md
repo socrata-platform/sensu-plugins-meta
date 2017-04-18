@@ -6,6 +6,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Added
 
+### Changed
+- Enable compatibility with sensu-plugin 2.x
+
 ## [0.1.0] - 2017-03-07
 ### Added
 - Initial release
