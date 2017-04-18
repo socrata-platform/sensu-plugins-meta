@@ -5,7 +5,7 @@ require_relative 'spec_helper'
 require_relative '../bin/check-meta-ruby'
 
 describe CheckMetaRuby do
-  let(:argv) { %w(-c fake-check.rb -j '[{"fake": "json"}]') }
+  let(:argv) { %w[-c fake-check.rb -j '[{"fake": "json"}]'] }
   let(:check) { described_class.new(argv) }
 
   # Don't let Sensu::Plugin::CLI hijack RSpec with its `at_exit` block.
@@ -58,11 +58,11 @@ describe CheckMetaRuby do
       c
     end
     before do
-      %w(
+      %w[
         require
         puts
         summarize!
-      ).each do |m|
+      ].each do |m|
         allow_any_instance_of(described_class).to receive(m)
       end
       allow_any_instance_of(described_class).to receive(:status_information)
@@ -123,21 +123,21 @@ describe CheckMetaRuby do
     end
 
     context 'a mix of results' do
-      let(:ok) { %w(1 2) }
-      let(:warning) { %w(1 2 3) }
-      let(:critical) { %w(1) }
-      let(:unknown) { %w(1 2 3 4) }
+      let(:ok) { %w[1 2] }
+      let(:warning) { %w[1 2 3] }
+      let(:critical) { %w[1] }
+      let(:unknown) { %w[1 2 3 4] }
 
       it 'ends with the expected status' do
         c = check
         expect(c).to receive(:critical).with('fake summary')
-        %w(warning unknown ok).each { |m| allow(c).to receive(m) }
+        %w[warning unknown ok].each { |m| allow(c).to receive(m) }
         c.summarize!
       end
     end
 
     context 'only ok results' do
-      let(:ok) { %w(1 2) }
+      let(:ok) { %w[1 2] }
 
       it 'ends with the expected status' do
         c = check
@@ -147,7 +147,7 @@ describe CheckMetaRuby do
     end
 
     context 'only warning results' do
-      let(:warning) { %w(1 2 3) }
+      let(:warning) { %w[1 2 3] }
 
       it 'ends with the expected status' do
         c = check
@@ -158,7 +158,7 @@ describe CheckMetaRuby do
     end
 
     context 'only critical results' do
-      let(:critical) { %w(1) }
+      let(:critical) { %w[1] }
 
       it 'ends with the expected status' do
         c = check
@@ -169,7 +169,7 @@ describe CheckMetaRuby do
     end
 
     context 'only unknown results' do
-      let(:unknown) { %w(1 2 3 4) }
+      let(:unknown) { %w[1 2 3 4] }
 
       it 'ends with the expected status' do
         c = check
@@ -260,10 +260,10 @@ describe CheckMetaRuby do
 
   describe '#summary' do
     let(:check) do
-      results = { ok: %w(ok1 ok2),
-                  warning: %w(warn1),
-                  critical: %w(crit1 crit2 crit3 crit4),
-                  unknown: %w(un1 un2 un3) }
+      results = { ok: %w[ok1 ok2],
+                  warning: %w[warn1],
+                  critical: %w[crit1 crit2 crit3 crit4],
+                  unknown: %w[un1 un2 un3] }
       c = super()
       c.instance_variable_set(:@results, results)
       c
@@ -357,7 +357,7 @@ describe CheckMetaRuby do
 
   describe '#thread_for' do
     let(:check_opts) { { host: 'example.com' } }
-    let(:check_args) { %w(--host example.com) }
+    let(:check_args) { %w[--host example.com] }
     let(:check_class) { Class.new(Sensu::Plugin::Check::CLI) }
 
     before do
@@ -405,7 +405,7 @@ describe CheckMetaRuby do
       let(:subcheck_exit_status) { 0 }
 
       it 'correctly preserves the result' do
-        expected = { ok: %w(Okay!), warning: [], critical: [], unknown: [] }
+        expected = { ok: %w[Okay!], warning: [], critical: [], unknown: [] }
         expect(check.results).to eq(expected)
       end
     end
@@ -415,7 +415,7 @@ describe CheckMetaRuby do
       let(:subcheck_exit_status) { 1 }
 
       it 'correctly preserves the result' do
-        expected = { ok: [], warning: %w(Warning!), critical: [], unknown: [] }
+        expected = { ok: [], warning: %w[Warning!], critical: [], unknown: [] }
         expect(check.results).to eq(expected)
       end
     end
@@ -425,7 +425,7 @@ describe CheckMetaRuby do
       let(:subcheck_exit_status) { 2 }
 
       it 'correctly preserves the result' do
-        expected = { ok: [], warning: [], critical: %w(Critical!), unknown: [] }
+        expected = { ok: [], warning: [], critical: %w[Critical!], unknown: [] }
         expect(check.results).to eq(expected)
       end
     end
@@ -435,7 +435,7 @@ describe CheckMetaRuby do
       let(:subcheck_exit_status) { 3 }
 
       it 'correctly preserves the result' do
-        expected = { ok: [], warning: [], critical: [], unknown: %w(Unknown!) }
+        expected = { ok: [], warning: [], critical: [], unknown: %w[Unknown!] }
         expect(check.results).to eq(expected)
       end
     end
@@ -452,7 +452,7 @@ describe CheckMetaRuby do
 
   describe '#exit_statuses' do
     it 'returns the expected array of exit statuses' do
-      expect(check.exit_statuses).to eq(%i(ok warning critical unknown))
+      expect(check.exit_statuses).to eq(%i[ok warning critical unknown])
     end
   end
 
@@ -464,7 +464,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { s: 'wiggling' } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(-s wiggling))
+        expect(res).to eq(%w[-s wiggling])
       end
     end
 
@@ -472,7 +472,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { state: 'wiggling' } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(--state wiggling))
+        expect(res).to eq(%w[--state wiggling])
       end
     end
 
@@ -480,7 +480,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { now: nil } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(--now))
+        expect(res).to eq(%w[--now])
       end
     end
 
@@ -488,7 +488,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { :'fail-immediately' => 'yes' } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(--fail-immediately yes))
+        expect(res).to eq(%w[--fail-immediately yes])
       end
     end
 
@@ -496,7 +496,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { fail_immediately: 'yes' } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(--fail-immediately yes))
+        expect(res).to eq(%w[--fail-immediately yes])
       end
     end
 
@@ -504,7 +504,7 @@ describe CheckMetaRuby do
       let(:check_opts) { { s: 'wiggling', on_time: 'no', delayed: nil } }
 
       it 'returns the correct argv set' do
-        expect(res).to eq(%w(-s wiggling --on-time no --delayed))
+        expect(res).to eq(%w[-s wiggling --on-time no --delayed])
       end
     end
   end

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 # frozen_string_literal: false
+
 #
 #   check-meta-ruby.rb
 #
@@ -76,7 +77,7 @@ class CheckMetaRuby < Sensu::Plugin::Check::CLI
   # appropriate status.
   #
   def summarize!
-    %i(critical warning unknown).each do |status|
+    %i[critical warning unknown].each do |status|
       send(status, summary) unless results[status].empty?
     end
     ok(summary)
@@ -89,7 +90,7 @@ class CheckMetaRuby < Sensu::Plugin::Check::CLI
   # @return [String] a long string of all the non-ok subcheck statuses
   #
   def status_information
-    %i(unknown warning critical).map do |status|
+    %i[unknown warning critical].map do |status|
       results[status].map { |result| "#{status.upcase}: #{result}" }
     end.flatten.compact.join("\n")
   end
