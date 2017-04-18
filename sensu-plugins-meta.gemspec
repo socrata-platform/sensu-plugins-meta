@@ -31,13 +31,13 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.post_install_message = 'You can use the embedded Ruby by setting ' \
                            'EMBEDDED_RUBY=true in /etc/default/sensu'
-  s.require_paths = %w(lib)
+  s.require_paths = %w[lib]
   s.required_ruby_version = '>= 2.0.0'
   s.summary = 'Sensu plugins for batching multiple checks as one'
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
   s.version = SensuPluginsMeta::Version::VER_STRING
 
-  s.add_runtime_dependency 'sensu-plugin', '~> 1.2'
+  s.add_runtime_dependency 'sensu-plugin', '< 3.0'
 
   s.add_development_dependency 'bundler', '~> 1.7'
   s.add_development_dependency 'coveralls', '~> 0.8'
