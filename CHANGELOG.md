@@ -20,6 +20,6 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 - Initial release
 
 [Unreleased]: https://github.com/socrata-platform/sensu-plugins-meta/compare/0.2.1...HEAD
-[0.2.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/0.2.0...0.2.1
+[0.2.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/socrata-platform/sensu-plugins-meta/tree/v0.1.0
