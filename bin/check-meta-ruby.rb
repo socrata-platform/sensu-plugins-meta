@@ -39,8 +39,8 @@
 #   for details.
 #
 
-require 'json'
 require 'sensu-plugin/check/cli'
+require 'json'
 
 #
 # Check Meta
