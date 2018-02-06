@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.52'
   s.add_development_dependency 'yard', '~> 0.9'
   s.add_development_dependency 'test-kitchen', '~> 1.6'
-  s.add_development_dependency 'kitchen-vagrant', '~> 1.0'
-  s.add_development_dependency 'kitchen-docker', '~> 2.6'
+  s.add_development_dependency 'kitchen-dokken', '~> 2.6'
+  s.add_development_dependency 'kitchen-inspec', '~> 0.22'
+  s.add_development_dependency 'berkshelf', '~> 6.3'
 end

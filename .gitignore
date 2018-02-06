@@ -17,6 +17,7 @@ Gemfile.lock
 
 .kitchen/
 .kitchen.local.yml
+Berksfile.lock
 
 .env.sh
 .env.ps1
