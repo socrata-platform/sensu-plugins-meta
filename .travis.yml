@@ -38,7 +38,7 @@ jobs:
     - stage: deploy
       install: skip
       env:
-        - VERSION=$(ruby -e 'require File.expand_path("lib/sensu_plugins_meta/version"); print SensuPluginsMeta::Version::VER_STRING')
+        - VERSION=$(ruby -e 'print Gem::Specification.load("sensu-plugins-meta.gemspec").version')
       script: skip
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_f809c79576c5_key -iv $encrypted_f809c79576c5_iv -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d
