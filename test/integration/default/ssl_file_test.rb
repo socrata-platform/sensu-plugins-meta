@@ -26,7 +26,7 @@ end
 # WARNING
 json = [
   { host: 'www.google.com', port: 443, warning: 7, critical: 3 },
-  { host: 'www.socrata.com', port: 443, warning: 10000, critical: 7 },
+  { host: 'www.socrata.com', port: 443, warning: 10_000, critical: 7 },
   { host: 'www.bing.com', port: 443, warning: 14, critical: 10 }
 ].to_json
 command("echo '#{json}' > /tmp/check-ssl-warning.json").stdout
@@ -43,8 +43,8 @@ end
 # CRITICAL
 json = [
   { host: 'www.google.com', port: 443, warning: 7, critical: 3 },
-  { host: 'www.socrata.com', port: 443, warning: 10000, critical: 9999 },
-  { host: 'www.bing.com', port: 443, warning: 14000, critical: 10 }
+  { host: 'www.socrata.com', port: 443, warning: 10_000, critical: 9999 },
+  { host: 'www.bing.com', port: 443, warning: 14_000, critical: 10 }
 ].to_json
 command("echo '#{json}' > /tmp/check-ssl-critical.json").stdout
 describe command("#{check} -j /tmp/check-ssl-critical.json") do
@@ -60,8 +60,8 @@ end
 
 # UNKNOWN
 json = [
-  { host: 'www.google.com', port: 443, warning: 7, critical: 3},
-  { host: 'www.socrata.com', port: 443, warning: 10, critical: 7},
+  { host: 'www.google.com', port: 443, warning: 7, critical: 3 },
+  { host: 'www.socrata.com', port: 443, warning: 10, critical: 7 },
   { host: 'jojaduhafuhaduha.biz', port: 443, warning: 30, critical: 14 },
   { host: 'www.bing.com', port: 443, warning: 14, critical: 10 }
 ].to_json

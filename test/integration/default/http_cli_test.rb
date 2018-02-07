@@ -11,7 +11,7 @@ check = '/opt/sensu/embedded/bin/check-meta-ruby.rb -c check-http.rb'
 # OK
 json = [
   { host: '127.0.0.1', port: 80, request_uri: '/okay' },
-  { 'user-agent': 'Test', url: 'http://127.0.0.1/okay' },
+  { :'user-agent' => 'Test', url: 'http://127.0.0.1/okay' },
   { url: 'http://127.0.0.1/okaytoo' }
 ].to_json
 describe command("#{check} -j '#{json}'") do
@@ -24,9 +24,9 @@ end
 
 # WARNING
 json = [
- { host: '127.0.0.1', port: 80, request_uri: '/okay' },
- { 'user-agent': 'Test', url: 'http://127.0.0.1/okay' },
- { url: 'http://127.0.0.1/gooverthere' }
+  { host: '127.0.0.1', port: 80, request_uri: '/okay' },
+  { :'user-agent' => 'Test', url: 'http://127.0.0.1/okay' },
+  { url: 'http://127.0.0.1/gooverthere' }
 ].to_json
 describe command("#{check} -j '#{json}'") do
   its(:exit_status) { should eq(1) }
@@ -41,7 +41,7 @@ end
 # CRITICAL
 json = [
   { host: '127.0.0.1', port: 443, request_uri: '/okay' },
-  { 'user-agent': 'Test', url: 'http://127.0.0.1/okay' },
+  { :'user-agent' => 'Test', url: 'http://127.0.0.1/okay' },
   { url: 'http://127.0.0.1/okaytoo' }
 ].to_json
 describe command("#{check} -j '#{json}'") do
@@ -59,7 +59,7 @@ end
 # UNKNOWN
 json = [
   { port: 80, request_uri: '/okay' },
-  { 'user-agent': 'Test', url: 'http://127.0.0.1/okay' },
+  { :'user-agent' => 'Test', url: 'http://127.0.0.1/okay' },
   { url: 'http://127.0.0.1/okaytoo' }
 ].to_json
 describe command("#{check} -j '#{json}'") do

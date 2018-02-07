@@ -8,58 +8,59 @@ file '/etc/nginx/sites-enabled/default' do
   action :delete
 end
 
-file '/etc/nginx/sites-enabled/sensu-plugins-meta.conf' do
-  content <<-CONTENT.gsub(/^ {4}/, '')
-    server {
-      listen 80;
+nginx_conf = <<-CONF.gsub(/^ {2}/, '')
+  server {
+    listen 80;
 
-      location / {
-        limit_except GET {
-          deny all;
-        }
-        return 200;
+    location / {
+      limit_except GET {
+        deny all;
       }
-
-      location /okay {
-        limit_except GET {
-          deny all;
-        }
-        return 200;
-      }
-
-      location /okaytoo {
-        limit_except GET {
-          deny all;
-        }
-        return 200;
-      }
-
-      location /notthere {
-        limit_except GET {
-          deny all;
-        }
-        return 404;
-      }
-
-      location /ohno {
-        limit_except GET {
-          deny all;
-        }
-        return 500;
-      }
-
-      location /gooverthere {
-        limit_except GET {
-          deny all;
-        }
-        return 301;
-      }
-
-      location /postthingshere {
-        return 200;
-      }
+      return 200;
     }
-  CONTENT
+
+    location /okay {
+      limit_except GET {
+        deny all;
+      }
+      return 200;
+    }
+
+    location /okaytoo {
+      limit_except GET {
+        deny all;
+      }
+      return 200;
+    }
+
+    location /notthere {
+      limit_except GET {
+        deny all;
+      }
+      return 404;
+    }
+
+    location /ohno {
+      limit_except GET {
+        deny all;
+      }
+      return 500;
+    }
+
+    location /gooverthere {
+      limit_except GET {
+        deny all;
+      }
+      return 301;
+    }
+
+    location /postthingshere {
+      return 200;
+    }
+  }
+CONF
+file '/etc/nginx/sites-enabled/sensu-plugins-meta.conf' do
+  content nginx_conf
   notifies :restart, 'service[nginx]'
 end
 
@@ -95,7 +96,8 @@ end
 
 execute 'Build plugin gem' do
   cwd node['build_dir']
-  command "SIGN_GEM=false /opt/sensu/embedded/bin/gem build sensu-plugins-meta.gemspec"
+  command 'SIGN_GEM=false /opt/sensu/embedded/bin/gem build ' \
+          'sensu-plugins-meta.gemspec'
 end
 
 execute 'Install plugin gem' do

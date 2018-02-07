@@ -6,6 +6,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ## [Unreleased]
 ### Changed
 - Support loading checks with a wider range of sensu-plugin versions
+- Require Ruby >= 2.1
 
 ## [0.2.1] - 2017-04-19
 ### Changed
