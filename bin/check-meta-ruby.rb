@@ -39,6 +39,15 @@
 #   for details.
 #
 
+# Load the check we're going to run before doing anything else so we don't run
+# the risk of importing a version of sensu-plugin that's compatible with this
+# check but not the sub-check.
+idx = ARGV.index('-c') || ARGV.index('--check')
+if idx
+  chk = ARGV[idx + 1]
+  require File.expand_path("../#{ARGV[idx + 1]}", $PROGRAM_NAME)
+end
+
 require 'sensu-plugin/check/cli'
 require 'json'
 

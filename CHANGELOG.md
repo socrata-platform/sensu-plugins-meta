@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
 ## [Unreleased]
+### Changed
+- Support loading checks with a wider range of sensu-plugin versions
 
 ## [0.2.1] - 2017-04-19
 ### Changed
