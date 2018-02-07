@@ -1,5 +1,4 @@
 language: ruby
-dist: trusty
 
 branches:
   only:
@@ -7,16 +6,47 @@ branches:
 
 sudo: required
 
+addons:
+  apt:
+    sources:
+      - chef-current-trusty
+    packages:
+      - chefdk
+
 services:
   - docker
 
 install:
-  - bundle install
-
-script:
-  - bundle exec rake
-  - bundle exec kitchen test
+  - chef exec bundle install
 
 env:
-  global:
-    - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
+  - SUITE=unit
+  - SUITE=sensu-latest
+  - SUITE=sensu-029
+
+script:
+  - if test "$SUITE" = "unit"; then chef exec rake; fi
+  - if test "$SUITE" != "unit"; then chef exec kitchen test $SUITE; fi
+
+stages:
+  - name: test
+  - name: deploy
+    if: NOT type = cron AND branch = master
+
+jobs:
+  include:
+    - stage: deploy
+      install: skip
+      env:
+      script: skip
+      deploy:
+        provider: rubygems
+        api_key:
+          secure: FFC8P5cFbzjngxhbZqSU3qjCEsj86Tlpn34LMUUlaf5vTEeFdhzsGjHmo7cJA7DvBdBPuDDJTqKxbR6WNjek55VeA48dG+diVBG1bS9VhQ0VdpuZHBhFU1PdteizK4tefCiK7f89CjsL1sV8+mHCMzdjO0QlxHNqJPAx7vmeFdadNKTfWia4+9XampH5d7JzdA0LgdJyci01A+o68R5ZCRJ+q7cxVWlW8dZcjMrThVfwAZSwgjoK8E3nSoxcJxqXTaoQBp3DDRpoNx8PrAc58umCDIc+twKyPtkRMVIxfzoYS38LabQ2eIgna8E9rZS7x+YkWJI0y9pz0ffRy1tvHWVhtixvQeiMjnghiGTlFiqvjS2VFC37JngFSLtoeNrIqxjpu+jCmWsJbCxzYSBvtOnWwfpQqhl2MdkRC7QqlQsTJZrOydfEmX6dC04aYZJvjbctrPvRb81wlwOEiY+orl0E8gyvIDxL6hpJRlkcIkIzYVLj0UBI87fEkN6/Sr+jbJBzn4Rf55H9+p+3XFBmSnv4mmEJ/tDu0U1gnrMPvfTbm5Ob5xtvx4HuIH9gWYcgoutEYqqkF5PYeaD/MwN7d2MZFbHMq9N+F5Egy5p+175CHKBWUkgHgU0OB6RpLfjYP01u5Nql6vJjA5jzMHEz+PVCGFSYrxbcwQbCi0ODSvk=
+
+notifications:
+  slack:
+    on_failure: change
+    on_success: never
+    rooms:
+      - secure: nNDUtNj7uj58n8cauL+wkWU4Yt5ZoZETZ2ROzJ0jU8RbyQNiedTRBZ10fHch6tA9WYsvAt5GfgumAUAUJeNN62HmqXCNb6OVvjh1VVzEfN3J4jk5iYj1RXsT1kx/wnQ3z9LdsgsLFP2YyxVolE3iA+SSoYZH6NdhTmC7bgGG16fTV811RYV+bYafO5QwCtqkQIWdP1522Ja2Emd+6bV87J1RTZ3N9UGu9eSmRhSdPz+jooPhbl/dUm5RIHb7bS9qJmT6+/a52pbTOWZBJc/yorlneJCHw9XiJ5HbE9v0aQV1Rpqo6l54P2hClIKz5ajID5qce2DAjM8/H40hBzfcslly4tMnEJrylAxAM3V+QGX2LdN5ub3L95Rhzp38SGtw78t7vruya34nfnBjxFPHysmX9N+lMZsJlGwSbnNvTSeHSNgrDjjy184TsAeIjSBQZbt5FHJpWfqSSIgPX/hKaFcQP1HTxIcpVJ2+UlEdmcRRmycMHQSJJUap0Dj9y6PJ+HL9STuNn6oKqMQNSdsbH9cqXUZ/en38eLuyTfB1rwGerlqNrCcXUtJsAz2nyy/HeZ7m7SZawzzGY5UG2q07oRM1iRAYL2a//FTN++FZLG2yy2pDd8hjxDxJBTLZyc1iB//q7YrsCsp3g+jB8tLzLaNEszwLYM3f569ixgBtd1g=
