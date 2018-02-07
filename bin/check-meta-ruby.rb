@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
 # frozen_string_literal: false
 
 #
@@ -38,6 +37,12 @@
 #   Released under the same terms as Sensu (the MIT license); see LICENSE
 #   for details.
 #
+
+# Load the check we're going to run before doing anything else so we don't run
+# the risk of importing a version of sensu-plugin that's compatible with this
+# check but not the sub-check.
+idx = ARGV.index('-c') || ARGV.index('--check')
+require File.expand_path("../#{ARGV[idx + 1]}", $PROGRAM_NAME) if idx
 
 require 'sensu-plugin/check/cli'
 require 'json'

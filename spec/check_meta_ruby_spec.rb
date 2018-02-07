@@ -1,4 +1,3 @@
-# encoding: utf-8
 # frozen_string_literal: true
 
 require_relative 'spec_helper'
@@ -91,7 +90,7 @@ describe CheckMetaRuby do
     it 'prints the subcheck status to stdout' do
       c = check
       expect(c).to receive(:status_information).at_least(:once)
-        .and_return('stubstatus')
+                                               .and_return('stubstatus')
       expect(c).to receive(:puts).with('stubstatus')
       c.run
     end
@@ -200,12 +199,12 @@ describe CheckMetaRuby do
       let(:critical) { ['Check: 1 crit', 'Check: 2 crit'] }
       let(:unknown) { ['Check: 1 unknown'] }
       it 'returns a string of check results' do
-        expected = <<-EOH.gsub(/^ +/, '').strip
+        expected = <<-EXP.gsub(/^ +/, '').strip
           UNKNOWN: Check: 1 unknown
           WARNING: Check: 1 warn
           CRITICAL: Check: 1 crit
           CRITICAL: Check: 2 crit
-        EOH
+        EXP
         expect(check.status_information).to eq(expected)
       end
     end
@@ -222,11 +221,11 @@ describe CheckMetaRuby do
       let(:warning) { ['Check: 1 warn', 'Check: 2 warn', 'Check: 3 warn'] }
 
       it 'returns a string of check results' do
-        expected = <<-EOH.gsub(/^ +/, '').strip
+        expected = <<-EXP.gsub(/^ +/, '').strip
           WARNING: Check: 1 warn
           WARNING: Check: 2 warn
           WARNING: Check: 3 warn
-        EOH
+        EXP
         expect(check.status_information).to eq(expected)
       end
     end
@@ -235,11 +234,11 @@ describe CheckMetaRuby do
       let(:critical) { ['Check: 1 crit', 'Check: 2 crit', 'Check: 3 crit'] }
 
       it 'returns a string of check results' do
-        expected = <<-EOH.gsub(/^ +/, '').strip
+        expected = <<-EXP.gsub(/^ +/, '').strip
           CRITICAL: Check: 1 crit
           CRITICAL: Check: 2 crit
           CRITICAL: Check: 3 crit
-        EOH
+        EXP
         expect(check.status_information).to eq(expected)
       end
     end
@@ -248,11 +247,11 @@ describe CheckMetaRuby do
       let(:unknown) { ['Check: 1 ???', 'Check: 2 ???', 'Check: 3 ???'] }
 
       it 'returns a string of check results' do
-        expected = <<-EOH.gsub(/^ +/, '').strip
+        expected = <<-EXP.gsub(/^ +/, '').strip
           UNKNOWN: Check: 1 ???
           UNKNOWN: Check: 2 ???
           UNKNOWN: Check: 3 ???
-        EOH
+        EXP
         expect(check.status_information).to eq(expected)
       end
     end
@@ -367,7 +366,7 @@ describe CheckMetaRuby do
       allow_any_instance_of(described_class).to receive(:check_args_for)
         .with(check_opts).and_return(check_args)
       allow(check_class).to receive(:new).with(check_args)
-        .and_return('stub check')
+                                         .and_return('stub check')
     end
 
     it 'returns a thread for running the check' do
