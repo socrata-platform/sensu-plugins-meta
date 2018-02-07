@@ -6,9 +6,9 @@ module SensuPluginsMeta
     # The major version.
     MAJOR = 0
     # The minor version.
-    MINOR = 2
+    MINOR = 3
     # The patch version.
-    PATCH = 2
+    PATCH = 0
     # Concat them into a version string
     VER_STRING = [MAJOR, MINOR, PATCH].compact.join('.')
   end

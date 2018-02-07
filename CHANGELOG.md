@@ -3,7 +3,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
-## [Unreleased]
+## [0.3.0] - 2018-02-07
 ### Changed
 - Support loading checks with a wider range of sensu-plugin versions
 - Require Ruby >= 2.1
