@@ -25,3 +25,7 @@ tmp/
 coverage
 .yardoc/
 doc/
+
+# TravisCI
+.travis/*
+!.travis/id_rsa.enc

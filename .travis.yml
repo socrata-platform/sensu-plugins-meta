@@ -38,7 +38,14 @@ jobs:
     - stage: deploy
       install: skip
       env:
+        - VERSION=$(ruby -e 'require File.expand_path("lib/sensu_plugins_meta/version"); print SensuPluginsMeta::Version::VER_STRING')
       script: skip
+      before_deploy:
+        - openssl aes-256-cbc -K $encrypted_f809c79576c5_key -iv $encrypted_f809c79576c5_iv -in .travis/id_rsa.enc -out ~/.ssh/id_rsa -d
+        - chmod 0600 ~/.ssh/id_rsa
+        - git remote set-url origin git@github.com:socrata-platform/sensu-plugins-meta
+        - git tag -a v${VERSION} -m "Tagging v${VERSION} for release"
+        - git push --tags
       deploy:
         provider: rubygems
         api_key:

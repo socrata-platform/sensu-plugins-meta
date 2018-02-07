@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [0.3.1] - 2018-02-07
+### Changed
+- Fix the gem homepage URL
+
 ## [0.3.0] - 2018-02-07
 ### Changed
 - Support loading checks with a wider range of sensu-plugin versions
@@ -22,7 +26,9 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/socrata-platform/sensu-plugins-meta/tree/v0.1.0
