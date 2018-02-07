@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
     'README.md',
     'CHANGELOG.md'
   ]
-  s.homepage = 'https://github.com/sensu-plugins/sensu-plugins-meta'
+  s.homepage = 'https://github.com/socrata-platform/sensu-plugins-meta'
   s.license = 'MIT'
   s.metadata = { 'maintainer' => 'sensu-plugin',
                  'development_status' => 'active',
