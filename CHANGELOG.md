@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [0.3.3] - 2018-03-07
+### Changed
+- Fix a new style violation
+
 ## [0.3.2] - 2018-02-07
 ### Changed
 - Fix version tagging in GitHub
@@ -30,6 +34,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - Initial release
 
+[0.3.3]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.2.1...v0.3.0
