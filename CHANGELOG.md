@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [0.3.4] - 2018-05-09
+### Changed
+- Reconfigure the CI build so it passes again
+
 ## [0.3.3] - 2018-03-07
 ### Changed
 - Fix a new style violation
