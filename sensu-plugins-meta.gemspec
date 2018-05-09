@@ -38,12 +38,8 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'sensu-plugin', '>= 1.2', '< 3.0'
 
-  s.add_development_dependency 'berkshelf', '~> 6.3'
   s.add_development_dependency 'bundler', '~> 1.7'
-  s.add_development_dependency 'coveralls', '~> 0.8'
   s.add_development_dependency 'github-markup', '~> 2.0'
-  s.add_development_dependency 'kitchen-dokken', '~> 2.6'
-  s.add_development_dependency 'kitchen-inspec', '~> 0.22'
   s.add_development_dependency 'pry', '~> 0.10'
   s.add_development_dependency 'rake', '~> 12.0'
   s.add_development_dependency 'redcarpet', '~> 3.2'
@@ -51,6 +47,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.52'
   s.add_development_dependency 'simplecov', '~> 0.12'
   s.add_development_dependency 'simplecov-console', '~> 0.4'
-  s.add_development_dependency 'test-kitchen', '~> 1.6'
   s.add_development_dependency 'yard', '~> 0.9'
 end

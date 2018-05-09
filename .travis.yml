@@ -16,16 +16,13 @@ addons:
 services:
   - docker
 
-install:
-  - chef exec bundle install
-
 env:
   - SUITE=unit
   - SUITE=sensu-latest
   - SUITE=sensu-029
 
 script:
-  - if test "$SUITE" = "unit"; then chef exec rake; fi
+  - if test "$SUITE" = "unit"; then bundle exec rake; fi
   - if test "$SUITE" != "unit"; then chef exec kitchen test $SUITE; fi
 
 stages:
@@ -55,5 +52,6 @@ notifications:
   slack:
     on_failure: change
     on_success: never
+    on_pull_requests: false
     rooms:
       - secure: nNDUtNj7uj58n8cauL+wkWU4Yt5ZoZETZ2ROzJ0jU8RbyQNiedTRBZ10fHch6tA9WYsvAt5GfgumAUAUJeNN62HmqXCNb6OVvjh1VVzEfN3J4jk5iYj1RXsT1kx/wnQ3z9LdsgsLFP2YyxVolE3iA+SSoYZH6NdhTmC7bgGG16fTV811RYV+bYafO5QwCtqkQIWdP1522Ja2Emd+6bV87J1RTZ3N9UGu9eSmRhSdPz+jooPhbl/dUm5RIHb7bS9qJmT6+/a52pbTOWZBJc/yorlneJCHw9XiJ5HbE9v0aQV1Rpqo6l54P2hClIKz5ajID5qce2DAjM8/H40hBzfcslly4tMnEJrylAxAM3V+QGX2LdN5ub3L95Rhzp38SGtw78t7vruya34nfnBjxFPHysmX9N+lMZsJlGwSbnNvTSeHSNgrDjjy184TsAeIjSBQZbt5FHJpWfqSSIgPX/hKaFcQP1HTxIcpVJ2+UlEdmcRRmycMHQSJJUap0Dj9y6PJ+HL9STuNn6oKqMQNSdsbH9cqXUZ/en38eLuyTfB1rwGerlqNrCcXUtJsAz2nyy/HeZ7m7SZawzzGY5UG2q07oRM1iRAYL2a//FTN++FZLG2yy2pDd8hjxDxJBTLZyc1iB//q7YrsCsp3g+jB8tLzLaNEszwLYM3f569ixgBtd1g=
