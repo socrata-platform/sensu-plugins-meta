@@ -4,11 +4,11 @@ module SensuPluginsMeta
   # The version of this Sensu plugin.
   module Version
     # The major version.
-    MAJOR = 0
+    MAJOR = 1
     # The minor version.
-    MINOR = 3
+    MINOR = 0
     # The patch version.
-    PATCH = 4
+    PATCH = 0
     # Concat them into a version string
     VER_STRING = [MAJOR, MINOR, PATCH].compact.join('.')
   end
