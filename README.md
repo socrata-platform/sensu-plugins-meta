@@ -3,11 +3,9 @@ Sensu Plugins Meta
 
 [![Build Status](https://img.shields.io/travis/socrata-platform/sensu-plugins-meta.svg)][travis]
 [![Gem Version](https://img.shields.io/gem/v/sensu-plugins-meta.svg)][rubygems]
-[![Dependency Status](https://gemnasium.com/socrata-platform/sensu-plugins-meta.svg)][gemnasium]
 
 [travis]: https://travis-ci.org/socrata-platform/sensu-plugins-meta
 [rubygems]: https://rubygems.org/gems/sensu-plugins-meta
-[gemnasium]: https://gemnasium.com/socrata-platform/sensu-plugins-meta
 
 Functionality
 -------------
