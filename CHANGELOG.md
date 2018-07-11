@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.0] - 2018-07-11
+### Changed
+- Drop support for Ruby 2.1 and 2.2
+
 ## [0.3.4] - 2018-05-09
 ### Changed
 - Reconfigure the CI build so it passes again
@@ -38,6 +42,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - Initial release
 
+[1.0.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.3...v1.0.0
 [0.3.3]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.0...v0.3.1

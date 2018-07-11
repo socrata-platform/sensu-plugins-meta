@@ -484,7 +484,7 @@ describe CheckMetaRuby do
     end
 
     context 'a hyphenated switch' do
-      let(:check_opts) { { :'fail-immediately' => 'yes' } }
+      let(:check_opts) { { 'fail-immediately'.to_sym => 'yes' } }
 
       it 'returns the correct argv set' do
         expect(res).to eq(%w[--fail-immediately yes])
