@@ -1,4 +1,5 @@
 language: ruby
+dist: xenial
 
 branches:
   only:
@@ -9,12 +10,17 @@ sudo: required
 addons:
   apt:
     sources:
-      - chef-current-trusty
+      - sourceline: deb https://packages.chef.io/repos/apt/current xenial main
+        key_url: https://packages.chef.io/chef.asc
     packages:
       - chefdk
 
 services:
   - docker
+
+before_install:
+  - gem install bundler
+  - chef exec gem install bundler
 
 env:
   - SUITE=unit
