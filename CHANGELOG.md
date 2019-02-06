@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.2] - 2019-02-06
+### Changed
+- Update gem dependency pins
+
 ## [1.0.1] - 2019-02-06
 ### Changed
 - Update the Slack notification in the CI config
@@ -46,6 +50,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 ### Added
 - Initial release
 
+[1.0.2]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.3...v1.0.0
 [0.3.3]: https://github.com/socrata-platform/sensu-plugins-meta/compare/v0.3.2...v0.3.3
