@@ -20,6 +20,7 @@ describe command("#{check} -j '#{json}'") do
     exp = "CheckMetaRuby OK: Results: 0 critical, 0 warning, 0 unknown, 3 ok\n"
     should eq(exp)
   end
+  its(:stderr) { should be_empty }
 end
 
 # WARNING
@@ -36,6 +37,7 @@ describe command("#{check} -j '#{json}'") do
                      '1 warning, 0 unknown, 2 ok\n')
     should match(exp)
   end
+  its(:stderr) { should be_empty }
 end
 
 # CRITICAL
@@ -53,6 +55,7 @@ describe command("#{check} -j '#{json}'") do
                      '1 warning, 0 unknown, 1 ok\n')
     should match(exp)
   end
+  its(:stderr) { should be_empty }
 end
 
 # UNKNOWN
@@ -70,4 +73,5 @@ describe command("#{check} -j '#{json}'") do
           "1 unknown, 3 ok\n"
     should eq(exp)
   end
+  its(:stderr) { should be_empty }
 end
