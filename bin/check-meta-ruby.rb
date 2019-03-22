@@ -38,9 +38,11 @@
 #   for details.
 #
 
-# Load the check we're going to run before doing anything else so we don't run
-# the risk of importing a version of sensu-plugin that's compatible with this
-# check but not the sub-check.
+# Unload the specs that get activated by Gem.activate_bin_path in the binstub
+# and immediately load the check we're going to run so we can get around any
+# dependency conflicts between it and this check, which is compatible with just
+# about any version of sensu-plugin or json.
+%w[sensu-plugin json mixlib-cli].each { |g| Gem.loaded_specs.delete(g) }
 idx = ARGV.index('-c') || ARGV.index('--check')
 require File.expand_path("../#{ARGV[idx + 1]}", $PROGRAM_NAME) if idx
 
