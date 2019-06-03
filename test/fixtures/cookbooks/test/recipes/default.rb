@@ -68,39 +68,38 @@ service 'nginx' do
   action %i[enable start]
 end
 
-apt_repository 'sensu' do
-  uri 'http://repositories.sensuapp.org/apt'
-  key 'http://repositories.sensuapp.org/apt/pubkey.gpg'
-  distribution node['lsb']['codename']
+apt_repository 'sensu_community' do
+  uri 'https://packagecloud.io/sensu/community/ubuntu'
+  key 'https://packagecloud.io/sensu/community/gpgkey'
   components %w[main]
 end
 
-package 'sensu' do
-  version node['sensu_version'] unless node['sensu_version'].nil?
-end
+package 'sensu-plugins-ruby'
+
+bin_path = '/opt/sensu-plugins-ruby/embedded/bin'
 
 %w[sensu-plugins-http sensu-plugins-ssl].each do |p|
   gem_package p do
-    gem_binary '/opt/sensu/embedded/bin/gem'
+    gem_binary "#{bin_path}/gem"
   end
 end
 
-directory node['build_dir'] do
-  recursive true
-  action :delete
+execute 'Install Bundler' do
+  cwd node['build_dir']
+  command "#{bin_path}/gem install bundler"
 end
 
-execute 'Copy everything into the build dir' do
-  command "cp -a #{node['staging_dir']} #{node['build_dir']}"
+execute 'Bundle install' do
+  cwd node['build_dir']
+  command "#{bin_path}/bundle install --without=development"
 end
 
 execute 'Build plugin gem' do
   cwd node['build_dir']
-  command 'SIGN_GEM=false /opt/sensu/embedded/bin/gem build ' \
-          'sensu-plugins-meta.gemspec'
+  command "SIGN_GEM=false #{bin_path}/gem build sensu-plugins-meta.gemspec"
 end
 
 execute 'Install plugin gem' do
   cwd node['build_dir']
-  command '/opt/sensu/embedded/bin/gem install sensu-plugins-meta-*.gem'
+  command "#{bin_path}/gem install sensu-plugins-meta-*.gem"
 end

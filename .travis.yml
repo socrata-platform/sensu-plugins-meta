@@ -1,5 +1,5 @@
-language: ruby
 dist: xenial
+language: ruby
 
 branches:
   only:
@@ -7,20 +7,12 @@ branches:
 
 sudo: required
 
-addons:
-  apt:
-    sources:
-      - sourceline: deb https://packages.chef.io/repos/apt/current xenial main
-        key_url: https://packages.chef.io/chef.asc
-    packages:
-      - chefdk
-
 services:
   - docker
 
 before_install:
-  - gem install bundler
-  - chef exec gem install bundler
+  - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk -v 3
+  - chef exec bundle install
 
 env:
   - SUITE=unit

@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.4] - 2019-06-03
+### Changed
+- Pin CI to versions of Chef/Chef-DK that don't require a commercial license
+
 ## [1.0.3] - 2019-03-29
 ### Changed
 - Advertise compatibility with sensu-plugin 4.x
