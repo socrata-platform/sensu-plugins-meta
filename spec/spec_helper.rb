@@ -6,4 +6,4 @@ require 'simplecov-console'
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
 SimpleCov.minimum_coverage(100)
-SimpleCov.start
+SimpleCov.start { add_filter 'test/' }
