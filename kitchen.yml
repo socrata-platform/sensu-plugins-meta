@@ -1,36 +1,28 @@
 ---
 driver:
-  name: dokken
+  name: docker
   privileged: true
-  chef_version: 14
-  binds:
-    - <%= File.expand_path('.') %>:/tmp/staging
-
-transport:
-  name: dokken
 
 provisioner:
-  name: dokken
+  name: shell
+  data_path: .
+  script: test/fixtures/bootstrap.sh
 
 verifier:
-  name: inspec
-  root_path: /opt/verifier
-  sudo: false
+  name: serverspec
+  default_pattern: true
 
 platforms:
   - name: ubuntu
     driver:
-      image: ubuntu:18.04
-      intermediate_instructions:
-        - RUN rm -f /usr/sbin/policy-rc.d
-        - RUN apt-get update
-        - RUN apt-get -y install systemd iproute2
-      pid_one_command: /lib/systemd/systemd
+      image: ubuntu:latest
+      provision_command:
+        - rm -f /usr/sbin/policy-rc.d
+        - apt-get update
+        - apt-get -y install systemd sudo ssh iproute2
+        - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+        - systemctl enable ssh.service
+      run_command: /lib/systemd/systemd
 
 suites:
   - name: default
-    run_list:
-      - recipe[test]
-    attributes:
-      staging_dir: /tmp/staging
-      build_dir: /tmp/build

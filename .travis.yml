@@ -10,18 +10,13 @@ sudo: required
 services:
   - docker
 
-before_install:
-  - curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -c current -P chefdk -v 3
-  - chef exec bundle install
-
 env:
   - SUITE=unit
-  - SUITE=sensu-latest
-  - SUITE=sensu-029
+  - SUITE=default
 
 script:
   - if test "$SUITE" = "unit"; then bundle exec rake; fi
-  - if test "$SUITE" != "unit"; then chef exec kitchen test $SUITE; fi
+  - if test "$SUITE" != "unit"; then bundle exec kitchen test $SUITE; fi
 
 stages:
   - name: test

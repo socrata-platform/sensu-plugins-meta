@@ -5,7 +5,7 @@ This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachang
 
 ## [1.0.4] - 2019-06-03
 ### Changed
-- Pin CI to versions of Chef/Chef-DK that don't require a commercial license
+- Replace CI components that already or will soon require a commercial license
 
 ## [1.0.3] - 2019-03-29
 ### Changed

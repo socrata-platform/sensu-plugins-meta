@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require 'json'
+require_relative 'spec_helper'
 
-check = '/opt/sensu/embedded/bin/check-meta-ruby.rb -c check-http.rb'
+check = '/opt/sensu-plugins-ruby/embedded/bin/check-meta-ruby.rb -c check-http.rb'
 
 #
 # Check a batch of HTTP hosts from the CLI
