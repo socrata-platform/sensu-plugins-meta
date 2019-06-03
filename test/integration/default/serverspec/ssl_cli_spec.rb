@@ -3,7 +3,8 @@
 require 'json'
 require_relative 'spec_helper'
 
-check = '/opt/sensu-plugins-ruby/embedded/bin/check-meta-ruby.rb -c check-ssl-host.rb'
+check = '/opt/sensu-plugins-ruby/embedded/bin/check-meta-ruby.rb ' \
+        '-c check-ssl-host.rb'
 
 #
 # Check a batch of SSL certs from the CLI
