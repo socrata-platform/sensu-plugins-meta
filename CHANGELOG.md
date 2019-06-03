@@ -3,6 +3,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.4] - 2019-06-03
+### Changed
+- Replace CI components that already or will soon require a commercial license
+- Commit the Gemfile.lock for enabling Dependabot
+
 ## [1.0.3] - 2019-03-29
 ### Changed
 - Advertise compatibility with sensu-plugin 4.x

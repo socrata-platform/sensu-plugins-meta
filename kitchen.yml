@@ -1,0 +1,28 @@
+---
+driver:
+  name: docker
+  privileged: true
+
+provisioner:
+  name: shell
+  data_path: .
+  script: test/fixtures/bootstrap.sh
+
+verifier:
+  name: serverspec
+  default_pattern: true
+
+platforms:
+  - name: ubuntu
+    driver:
+      image: ubuntu:latest
+      provision_command:
+        - rm -f /usr/sbin/policy-rc.d
+        - apt-get update
+        - apt-get -y install systemd sudo ssh iproute2
+        - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+        - systemctl enable ssh.service
+      run_command: /lib/systemd/systemd
+
+suites:
+  - name: default

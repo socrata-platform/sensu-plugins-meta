@@ -1,5 +1,5 @@
-language: ruby
 dist: xenial
+language: ruby
 
 branches:
   only:
@@ -7,29 +7,16 @@ branches:
 
 sudo: required
 
-addons:
-  apt:
-    sources:
-      - sourceline: deb https://packages.chef.io/repos/apt/current xenial main
-        key_url: https://packages.chef.io/chef.asc
-    packages:
-      - chefdk
-
 services:
   - docker
 
-before_install:
-  - gem install bundler
-  - chef exec gem install bundler
-
 env:
   - SUITE=unit
-  - SUITE=sensu-latest
-  - SUITE=sensu-029
+  - SUITE=default
 
 script:
   - if test "$SUITE" = "unit"; then bundle exec rake; fi
-  - if test "$SUITE" != "unit"; then chef exec kitchen test $SUITE; fi
+  - if test "$SUITE" != "unit"; then bundle exec kitchen test $SUITE; fi
 
 stages:
   - name: test

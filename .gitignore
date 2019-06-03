@@ -12,8 +12,8 @@
 .vscode/
 
 # Bundler
-Gemfile.lock
 .bundle/*
+vendor/*
 
 .kitchen/
 .kitchen.local.yml
