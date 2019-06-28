@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sensu-plugins-meta (1.0.4)
+    sensu-plugins-meta (1.0.5)
       sensu-plugin (>= 1.2, < 5.0)
 
 GEM
