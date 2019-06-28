@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.5] - 2019-06-28
+### Changed
+- Update rubocop and yard dependencies
+
 ## [1.0.4] - 2019-06-03
 ### Changed
 - Replace CI components that already or will soon require a commercial license
