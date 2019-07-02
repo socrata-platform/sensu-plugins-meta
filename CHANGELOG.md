@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.6] - 2019-07-02
+### Changed
+- Bump simplecov from 0.16.1 to 0.17.0
+
 ## [1.0.5] - 2019-06-28
 ### Changed
 - Update rubocop and yard dependencies
