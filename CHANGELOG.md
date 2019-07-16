@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.7] - 2019-07-16
+### Changed
+- Bump rubocop from 0.72.0 to 0.73.0
+
 ## [1.0.6] - 2019-07-02
 ### Changed
 - Bump simplecov from 0.16.1 to 0.17.0
