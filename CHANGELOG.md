@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.8] - 2019-07-22
+### Changed
+- Bump rake from 12.3.2 to 12.3.3
+
 ## [1.0.7] - 2019-07-16
 ### Changed
 - Bump rubocop from 0.72.0 to 0.73.0
