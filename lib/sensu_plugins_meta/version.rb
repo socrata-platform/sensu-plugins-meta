@@ -8,7 +8,7 @@ module SensuPluginsMeta
     # The minor version.
     MINOR = 0
     # The patch version.
-    PATCH = 7
+    PATCH = 8
     # Concat them into a version string
     VER_STRING = [MAJOR, MINOR, PATCH].compact.join('.')
   end
