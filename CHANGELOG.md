@@ -3,6 +3,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows the format listed at [Keep A Changelog](http://keepachangelog.com/)
 
+## [1.0.9] - 2019-07-29
+### Changed
+- Bump redcarpet from 3.4.0 to 3.5.0
+
 ## [1.0.8] - 2019-07-22
 ### Changed
 - Bump rake from 12.3.2 to 12.3.3
