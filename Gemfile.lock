@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sensu-plugins-meta (1.0.8)
+    sensu-plugins-meta (1.0.9)
       sensu-plugin (>= 1.2, < 5.0)
 
 GEM
@@ -67,7 +67,7 @@ GEM
       method_source (~> 0.9.0)
     rainbow (3.0.0)
     rake (12.3.3)
-    redcarpet (3.4.0)
+    redcarpet (3.5.0)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
