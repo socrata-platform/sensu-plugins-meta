@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sensu-plugins-meta (1.0.9)
+    sensu-plugins-meta (1.0.10)
       sensu-plugin (>= 1.2, < 5.0)
 
 GEM
@@ -81,7 +81,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
-    rubocop (0.73.0)
+    rubocop (0.74.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
