@@ -94,7 +94,7 @@ GEM
     sensu-plugin (4.0.0)
       json (< 3.0.0)
       mixlib-cli (~> 1.5)
-    simplecov (0.17.0)
+    simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
