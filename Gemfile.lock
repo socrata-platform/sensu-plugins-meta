@@ -25,7 +25,7 @@ GEM
       builder (>= 2.1.2)
     httpclient (2.8.3)
     jaro_winkler (1.5.3)
-    json (2.2.0)
+    json (2.5.1)
     kitchen-docker (2.9.0)
       test-kitchen (>= 1.0.0)
     kitchen-verifier-serverspec (0.7.0)
