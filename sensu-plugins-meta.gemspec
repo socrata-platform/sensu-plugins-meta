@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'kitchen-docker', '~> 2.9'
   s.add_development_dependency 'kitchen-verifier-serverspec', '~> 0.7'
   s.add_development_dependency 'pry', '~> 0.10'
-  s.add_development_dependency 'rake', '~> 12.0'
+  s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'redcarpet', '~> 3.2'
   s.add_development_dependency 'rspec', '~> 3.1'
   s.add_development_dependency 'rubocop', '~> 0.63'
